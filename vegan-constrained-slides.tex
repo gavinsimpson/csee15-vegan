@@ -120,6 +120,8 @@ Formula interface is the more powerful --- \emph{recommended}
 
 \begin{frame}[fragile]{Canonical Correspondence Analysis}
 
+\tiny
+
 \begin{Shaded}
 \begin{Highlighting}[]
 \NormalTok{cca1 <-}\StringTok{ }\KeywordTok{cca}\NormalTok{(varespec ~}\StringTok{ }\NormalTok{., }\DataTypeTok{data =} \NormalTok{varechem)}
@@ -148,11 +150,15 @@ Eigenvalues for unconstrained axes:
 0.19776 0.14193 0.10117 0.07079 0.05330 0.03330 0.01887 0.01510 0.00949 
 \end{verbatim}
 
+\normalsize
+
 \end{frame}
 
 \begin{frame}[fragile]{Redundancy Analysis}
 
 RDA is the constrained form of PCA; fitted using \texttt{rda()}.
+
+\tiny
 
 \begin{Shaded}
 \begin{Highlighting}[]
@@ -181,6 +187,8 @@ Eigenvalues for unconstrained axes:
    PC1    PC2    PC3    PC4    PC5    PC6    PC7    PC8    PC9 
 186.19  88.46  38.19  18.40  12.84  10.55   5.52   4.52   1.09 
 \end{verbatim}
+
+\normalsize
 
 \end{frame}
 
@@ -256,6 +264,8 @@ Thankfully we can use \emph{extractor} functions to get at such things
 Use \texttt{eigenvals()} to extract Eigenvalues from a fitted ordination
 object
 
+\scriptsize
+
 \begin{Shaded}
 \begin{Highlighting}[]
 \KeywordTok{eigenvals}\NormalTok{(cca1)}
@@ -272,6 +282,8 @@ object
       CA8       CA9 
 0.0151044 0.0094876 
 \end{verbatim}
+
+\normalsize
 
 \end{frame}
 
@@ -309,6 +321,8 @@ To extract a range of scores from a fitted ordination use
 
 \begin{frame}[fragile]{Extracting axis scores}
 
+\scriptsize
+
 \begin{Shaded}
 \begin{Highlighting}[]
 \KeywordTok{str}\NormalTok{(}\KeywordTok{scores}\NormalTok{(cca1, }\DataTypeTok{choices =} \DecValTok{1}\NormalTok{:}\DecValTok{4}\NormalTok{, }\DataTypeTok{display =} \KeywordTok{c}\NormalTok{(}\StringTok{"species"}\NormalTok{,}\StringTok{"sites"}\NormalTok{)), }\DataTypeTok{max =} \DecValTok{1}\NormalTok{)}
@@ -339,6 +353,8 @@ List of 2
 19 -0.1102881  0.7143142
 \end{verbatim}
 
+\normalsize
+
 \end{frame}
 
 \begin{frame}[fragile]{Scalings\ldots{}}
@@ -348,9 +364,8 @@ of data
 
 Can't display all of these and maintain relationships between the scores
 
-\emph{Solution} scale one set of scores relative to the other
-
-Controlled via the \texttt{scaling} argument
+\emph{Solution} scale one set of scores relative to the other via the
+\texttt{scaling} argument
 
 \begin{itemize}
 \itemsep1pt\parskip0pt\parsep0pt
@@ -377,11 +392,15 @@ Controlled via the \texttt{scaling} argument
   \texttt{scaling = 0} --- raw scores
 \end{itemize}
 
+\scriptsize
+
 \begin{Shaded}
 \begin{Highlighting}[]
 \KeywordTok{scores}\NormalTok{(cca1, }\DataTypeTok{choices =} \DecValTok{1}\NormalTok{:}\DecValTok{2}\NormalTok{, }\DataTypeTok{display =} \StringTok{"species"}\NormalTok{, }\DataTypeTok{scaling =} \DecValTok{3}\NormalTok{)}
 \end{Highlighting}
 \end{Shaded}
+
+\normalsize
 
 \end{frame}
 
@@ -394,6 +413,8 @@ Argument \texttt{Z} is used for a data frame of variables to partial out
 
 Or with the formula interface use the \texttt{Condition()} function
 
+\scriptsize
+
 \begin{Shaded}
 \begin{Highlighting}[]
 \NormalTok{pcca <-}\StringTok{ }\KeywordTok{cca}\NormalTok{(}\DataTypeTok{X =} \NormalTok{varespec,}
@@ -402,6 +423,8 @@ Or with the formula interface use the \texttt{Condition()} function
 \NormalTok{pcca <-}\StringTok{ }\KeywordTok{cca}\NormalTok{(varespec ~}\StringTok{ }\NormalTok{Ca +}\StringTok{ }\KeywordTok{Condition}\NormalTok{(pH), }\DataTypeTok{data =} \NormalTok{varechem) ## easier!}
 \end{Highlighting}
 \end{Shaded}
+
+\normalsize
 
 \end{frame}
 
@@ -414,23 +437,33 @@ Trying to cram three things in is a recipe for a mess\ldots{}
 
 \ldots{}but we can do it
 
+\scriptsize
+
 \begin{Shaded}
 \begin{Highlighting}[]
 \KeywordTok{plot}\NormalTok{(cca1)}
 \end{Highlighting}
 \end{Shaded}
+
+\begin{center}\includegraphics[width=0.5\linewidth]{vegan-constrained-slides_files/figure-beamer/triplot-1-1} \end{center}
+
+\normalsize
 
 \end{frame}
 
 \begin{frame}[fragile]{Triplots}
 
+\scriptsize
+
 \begin{Shaded}
 \begin{Highlighting}[]
 \KeywordTok{plot}\NormalTok{(cca1)}
 \end{Highlighting}
 \end{Shaded}
 
-\begin{center}\includegraphics[width=0.7\linewidth]{vegan-constrained-slides_files/figure-beamer/triplot-2-1} \end{center}
+\begin{center}\includegraphics[width=0.5\linewidth]{vegan-constrained-slides_files/figure-beamer/triplot-2-1} \end{center}
+
+\normalsize
 
 \end{frame}
 
@@ -456,6 +489,8 @@ basic interface
 \end{frame}
 
 \begin{frame}[fragile]{Building constrained ordination models}
+
+\scriptsize
 
 \begin{Shaded}
 \begin{Highlighting}[]
@@ -483,6 +518,8 @@ Eigenvalues for unconstrained axes:
 0.27577 0.15411 0.13536 0.11803 0.08887 0.05511 0.04919 0.03781 
 (Showed only 8 of all 17 unconstrained eigenvalues)
 \end{verbatim}
+
+\normalsize
 
 \end{frame}
 
@@ -549,6 +586,8 @@ function \texttt{ordistep()}
   To step from the lower scope or null model we use
 \end{enumerate}
 
+\scriptsize
+
 \begin{Shaded}
 \begin{Highlighting}[]
 \NormalTok{upr <-}\StringTok{ }\KeywordTok{cca}\NormalTok{(varespec ~}\StringTok{ }\NormalTok{., }\DataTypeTok{data =} \NormalTok{varechem)}
@@ -557,6 +596,8 @@ function \texttt{ordistep()}
 \NormalTok{mods <-}\StringTok{ }\KeywordTok{ordistep}\NormalTok{(lwr, }\DataTypeTok{scope =} \KeywordTok{formula}\NormalTok{(upr), }\DataTypeTok{trace =} \DecValTok{0}\NormalTok{)}
 \end{Highlighting}
 \end{Shaded}
+
+\normalsize
 
 \texttt{trace = 0} is used her to turn off printing of progress
 
@@ -572,6 +613,8 @@ object with an extra component \texttt{\$anova}
 
 The \texttt{\$anova} component contains a summary of the steps involved
 in automatic model building
+
+\tiny
 
 \begin{Shaded}
 \begin{Highlighting}[]
@@ -598,12 +641,16 @@ Eigenvalues for unconstrained axes:
 (Showed only 8 of all 20 unconstrained eigenvalues)
 \end{verbatim}
 
+\normalsize
+
 \end{frame}
 
 \begin{frame}[fragile]{Stepwise selection in CCA}
 
 The \texttt{\$anova} component contains a summary of the steps involved
 in automatic model building
+
+\scriptsize
 
 \begin{Shaded}
 \begin{Highlighting}[]
@@ -620,12 +667,16 @@ in automatic model building
 Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 \end{verbatim}
 
+\normalsize
+
 \end{frame}
 
 \begin{frame}[fragile]{Stepwise selection in CCA}
 
 Step-wise model selection is fairly fragile; if we start from the full
 model we won't end up with the same final model
+
+\tiny
 
 \begin{Shaded}
 \begin{Highlighting}[]
@@ -656,6 +707,8 @@ Eigenvalues for unconstrained axes:
 0.01646 0.01364 0.00823 0.00655 0.00365 0.00238 
 \end{verbatim}
 
+\normalsize
+
 \end{frame}
 
 \begin{frame}{Adjusted $R^2$ for \emph{linear} models}
@@ -677,13 +730,11 @@ measure
 
 \[R^2_{adj} = 1 - \frac{n - 1}{n - m - 1}(1 - R^2)\]
 
-where
-
 \begin{itemize}
+\itemsep1pt\parskip0pt\parsep0pt
 \item
-  $n$ is number of samples
-\item
-  $m$ is number of constraints (model degrees of freedom)
+  $n$ is number of samples $m$ is number of constraints (model degrees
+  of freedom)
 \item
   Can be used up to $\sim M > n/2$ before becomes too conservative
 \item
@@ -699,8 +750,8 @@ where
 The problems with stepwise selection in regression models are myriad.
 Affects RDA, CCA, etc as well
 
-@Blanchet2008 proposed a two-step solution for models where $R^2_{adj}$
-makes sense
+Blanchet, Legendre, and Borcard (2008) proposed a two-step solution for
+models where $R^2_{adj}$ makes sense
 
 \begin{itemize}
 \itemsep1pt\parskip0pt\parsep0pt
@@ -808,6 +859,8 @@ Evaluate whether $F$ is unusually large relative to the null
   \[F = \frac{1.4415 / 14}{0.6417 / 9} = 1.4441\]
 \end{itemize}
 
+\tiny
+
 \begin{Shaded}
 \begin{Highlighting}[]
 \KeywordTok{set.seed}\NormalTok{(}\DecValTok{42}\NormalTok{)}
@@ -827,6 +880,8 @@ Residual  9   0.64171
 ---
 Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 \end{verbatim}
+
+\normalsize
 
 \end{frame}
 
@@ -848,6 +903,8 @@ Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
   In the example, 1599 permutations were required
 \end{itemize}
 
+\tiny
+
 \begin{Shaded}
 \begin{Highlighting}[]
 \NormalTok{perm}
@@ -867,6 +924,8 @@ Residual  9   0.64171
 Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 \end{verbatim}
 
+\normalsize
+
 \end{frame}
 
 \begin{frame}[fragile]{Permutation tests in vegan: \texttt{anova()}}
@@ -876,6 +935,8 @@ Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 \item
   \texttt{anova.cca()} has a number of arguments
 \end{itemize}
+
+\tiny
 
 \begin{Shaded}
 \begin{Highlighting}[]
@@ -889,6 +950,8 @@ function (object, ..., permutations = how(nperm = 999), by = NULL,
     strata = NULL, cutoff = 1, scope = NULL) 
 NULL
 \end{verbatim}
+
+\normalsize
 
 \begin{itemize}
 \itemsep1pt\parskip0pt\parsep0pt
@@ -950,6 +1013,8 @@ axes}
   and so on
 \end{itemize}
 
+\tiny
+
 \begin{Shaded}
 \begin{Highlighting}[]
 \KeywordTok{set.seed}\NormalTok{(}\DecValTok{1}\NormalTok{)}
@@ -973,6 +1038,8 @@ Residual 20   1.43906
 Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 \end{verbatim}
 
+\normalsize
+
 \end{frame}
 
 \begin{frame}[fragile]{Permutation tests \textbar{} testing terms
@@ -992,6 +1059,8 @@ sequentially}
 \item
   \textbf{Ordering of the terms} will affect the results
 \end{itemize}
+
+\tiny
 
 \begin{Shaded}
 \begin{Highlighting}[]
@@ -1016,6 +1085,8 @@ Residual 20   1.43906
 Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 \end{verbatim}
 
+\normalsize
+
 \end{frame}
 
 \begin{frame}[fragile]{Permutation tests \textbar{} testing terms
@@ -1030,6 +1101,8 @@ marginal effects}
   The marginal \emph{effect} is the effect of a particular term when all
   other model terms are included in the model
 \end{itemize}
+
+\tiny
 
 \begin{Shaded}
 \begin{Highlighting}[]
@@ -1054,6 +1127,8 @@ Residual 20   1.43906
 Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 \end{verbatim}
 
+\normalsize
+
 \end{frame}
 
 \begin{frame}[fragile]{Constrained ordination worked example \textbar{}
@@ -1062,6 +1137,8 @@ spring meadow vegetation}
 Example \& data taken from Leps \& Smilauer, Case Study 2
 
 Spring fen meadow vegetation in westernmost Carpathian mountains
+
+\scriptsize
 
 \begin{Shaded}
 \begin{Highlighting}[]
@@ -1074,6 +1151,8 @@ Spring fen meadow vegetation in westernmost Carpathian mountains
 \end{Highlighting}
 \end{Shaded}
 
+\normalsize
+
 \end{frame}
 
 \begin{frame}[fragile]{Constrained ordination worked example \textbar{}
@@ -1081,6 +1160,8 @@ spring meadow vegetation}
 
 CCA a reasonable starting point as the gradient is long here (check with
 \texttt{decorana()} if you want)
+
+\scriptsize
 
 \begin{Shaded}
 \begin{Highlighting}[]
@@ -1103,17 +1184,31 @@ Residual 54    3.7509
 Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 \end{verbatim}
 
-\end{frame}
-
-\begin{frame}{Constrained ordination worked example \textbar{} spring
-meadow vegetation}
-
-\begin{center}\includegraphics[width=0.7\linewidth]{vegan-constrained-slides_files/figure-beamer/meadows-cca-full-triplot-1} \end{center}
+\normalsize
 
 \end{frame}
 
 \begin{frame}[fragile]{Constrained ordination worked example \textbar{}
 spring meadow vegetation}
+
+\scriptsize
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{plot}\NormalTok{(m1)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{center}\includegraphics[width=0.5\linewidth]{vegan-constrained-slides_files/figure-beamer/meadows-cca-full-triplot-1} \end{center}
+
+\normalsize
+
+\end{frame}
+
+\begin{frame}[fragile]{Constrained ordination worked example \textbar{}
+spring meadow vegetation}
+
+\tiny
 
 \begin{Shaded}
 \begin{Highlighting}[]
@@ -1149,17 +1244,31 @@ Eigenvalues for unconstrained axes:
 (Showed only 8 of all 62 unconstrained eigenvalues)
 \end{verbatim}
 
-\end{frame}
-
-\begin{frame}{Constrained ordination worked example \textbar{} spring
-meadow vegetation}
-
-\begin{center}\includegraphics[width=0.7\linewidth]{vegan-constrained-slides_files/figure-beamer/meadows-cca-reduced-triplot-1} \end{center}
+\normalsize
 
 \end{frame}
 
 \begin{frame}[fragile]{Constrained ordination worked example \textbar{}
 spring meadow vegetation}
+
+\scriptsize
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{plot}\NormalTok{(m2)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{center}\includegraphics[width=0.5\linewidth]{vegan-constrained-slides_files/figure-beamer/meadows-cca-reduced-triplot-1} \end{center}
+
+\normalsize
+
+\end{frame}
+
+\begin{frame}[fragile]{Constrained ordination worked example \textbar{}
+spring meadow vegetation}
+
+\scriptsize
 
 \begin{Shaded}
 \begin{Highlighting}[]
@@ -1180,12 +1289,16 @@ spring meadow vegetation}
 Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 \end{verbatim}
 
+\normalsize
+
 \end{frame}
 
 \begin{frame}[fragile]{Constrained ordination worked example \textbar{}
 spring meadow vegetation}
 
 Alternative is RDA with a transformation
+
+\scriptsize
 
 \begin{Shaded}
 \begin{Highlighting}[]
@@ -1196,12 +1309,24 @@ Alternative is RDA with a transformation
 \end{Highlighting}
 \end{Shaded}
 
+\normalsize
+
 \end{frame}
 
-\begin{frame}{Constrained ordination worked example \textbar{} spring
-meadow vegetation}
+\begin{frame}[fragile]{Constrained ordination worked example \textbar{}
+spring meadow vegetation}
 
-\begin{center}\includegraphics[width=0.7\linewidth]{vegan-constrained-slides_files/figure-beamer/meadows-rda-reduced-triplot-1} \end{center}
+\scriptsize
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{plot}\NormalTok{(m4)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{center}\includegraphics[width=0.5\linewidth]{vegan-constrained-slides_files/figure-beamer/meadows-rda-reduced-triplot-1} \end{center}
+
+\normalsize
 
 \end{frame}
 
@@ -1209,6 +1334,8 @@ meadow vegetation}
 spring meadow vegetation}
 
 Stepwise using $R^2_{adj}$
+
+\scriptsize
 
 \begin{Shaded}
 \begin{Highlighting}[]
@@ -1230,6 +1357,8 @@ Stepwise using $R^2_{adj}$
 ---
 Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 \end{verbatim}
+
+\normalsize
 
 \end{frame}
 
@@ -1279,6 +1408,8 @@ Which goodness of fit measure is returned is controlled by argument
 \begin{frame}[fragile]{Diagnostics for constrained ordinations
 \textbar{} goodness of fit}
 
+\scriptsize
+
 \begin{Shaded}
 \begin{Highlighting}[]
 \KeywordTok{head}\NormalTok{(}\KeywordTok{goodness}\NormalTok{(mods))}
@@ -1306,6 +1437,8 @@ Pinusylv 0.0009244423 0.004802076 0.0060096
 0.8254657 0.1953245 0.1824153 0.2406730 0.2110550 0.0060096 
 \end{verbatim}
 
+\normalsize
+
 \end{frame}
 
 \begin{frame}[fragile]{Diagnostics for constrained ordinations
@@ -1328,6 +1461,8 @@ Same two types of measure available by argument \texttt{statistic}
   Can output as proportions of total via \texttt{proportion = TRUE}
 \end{itemize}
 
+\scriptsize
+
 \begin{Shaded}
 \begin{Highlighting}[]
 \KeywordTok{head}\NormalTok{(}\KeywordTok{inertcomp}\NormalTok{(mods, }\DataTypeTok{proportional =} \OtherTok{TRUE}\NormalTok{))}
@@ -1343,6 +1478,8 @@ Vaccmyrt 0.2406730 0.7593270
 Vaccviti 0.2110550 0.7889450
 Pinusylv 0.0060096 0.9939904
 \end{verbatim}
+
+\normalsize
 
 \end{frame}
 
@@ -1366,6 +1503,8 @@ A \emph{poor} measure of goodness of fit. Sensitive to
 
 Better models can have poorer species-environment correlations
 
+\scriptsize
+
 \begin{Shaded}
 \begin{Highlighting}[]
 \KeywordTok{spenvcor}\NormalTok{(mods)}
@@ -1376,6 +1515,8 @@ Better models can have poorer species-environment correlations
      CCA1      CCA2      CCA3 
 0.8554808 0.8132873 0.8792797 
 \end{verbatim}
+
+\normalsize
 
 \end{frame}
 
@@ -1399,6 +1540,8 @@ Another \emph{poor} diagnostic
 Vector fitting (\texttt{envfit()}) or biplot scores
 (\texttt{scores(model, display = "bp")}) are better alternatives
 
+\scriptsize
+
 \begin{Shaded}
 \begin{Highlighting}[]
 \KeywordTok{intersetcor}\NormalTok{(mods)}
@@ -1411,6 +1554,8 @@ Al  0.7356151 -0.1302334 0.4259623
 P  -0.3589749 -0.6110772 0.4478933
 K  -0.3768462 -0.1339192 0.7760441
 \end{verbatim}
+
+\normalsize
 
 \end{frame}
 
@@ -1451,7 +1596,8 @@ Trick is to shuffle the data whilst preserving that dependence
 \begin{frame}{Restricted permutations}
 
 Canoco has had restricted permutations for a \emph{long} time.
-\textbf{vegan} has only recently caught up \& we're not there yet
+\textbf{vegan} has only recently caught up \& we're not (quite) there
+yet
 
 \textbf{vegan} still only knows how to completely randomise data or
 completely randomise within blocks (called \texttt{strata} in
@@ -1461,11 +1607,7 @@ The newish package \textbf{permute} grew out of initial code in the
 \textbf{vegan} repository to generate the sorts of restricted
 permutations available in Canoco
 
-We still haven't fully integrated \textbf{permute} into
-\textbf{vegan}\ldots{}
-
-\ldots{}but you can pass \textbf{vegan} functions a matrix of
-permutations to use instead of having it generate its own
+We have fully integrated \textbf{permute} into \textbf{vegan}\ldots{}
 
 \textbf{vegan} depends on \textbf{permute} so you should have it already
 installed \& loaded when using \textbf{vegan}
@@ -1561,6 +1703,8 @@ structure only broken at the end points \emph{if} series are stationary
 Can detrend to make series stationary but not if you want to test
 significance of a trend
 
+\scriptsize
+
 \begin{Shaded}
 \begin{Highlighting}[]
 \KeywordTok{shuffle}\NormalTok{(}\DecValTok{10}\NormalTok{, }\DataTypeTok{control =} \KeywordTok{how}\NormalTok{(}\DataTypeTok{within =} \KeywordTok{Within}\NormalTok{(}\DataTypeTok{type =} \StringTok{"series"}\NormalTok{)))}
@@ -1571,19 +1715,31 @@ significance of a trend
  [1]  9 10  1  2  3  4  5  6  7  8
 \end{verbatim}
 
+\normalsize
+
 \end{frame}
 
 \begin{frame}[fragile]{Restricted permutations with permute \textbar{}
 spatial grids}
 
 \columnsbegin
-\column{0.5\linewidth} The trick of cyclic shifts can be extended to two
-dimensions for a regular spatial grid arrangement of points
+\column{0.7\linewidth} - The trick of cyclic shifts can be extended to
+two dimensions for a regular spatial grid arrangement of points
 
-Now shifts are \emph{toroidal} as we join the end point in the \emph{x}
-direction together and in the \emph{y} direction together
+\begin{itemize}
+\itemsep1pt\parskip0pt\parsep0pt
+\item
+  Now shifts are \emph{toroidal} as we join the end point in the
+  \emph{x} direction together and in the \emph{y} direction together
+\end{itemize}
 
-\column{0.5\linewidth}
+\scriptsize
+
+\normalsize
+
+\column{0.3\linewidth}
+
+\scriptsize
 
 \begin{Shaded}
 \begin{Highlighting}[]
@@ -1598,6 +1754,7 @@ direction together and in the \emph{y} direction together
 [3,]    5    8    2
 \end{verbatim}
 
+\normalsize
 \columnsend
 
 \end{frame}
@@ -1734,12 +1891,16 @@ designing permutation schemes}
   \texttt{blocks} --- takes a factor variable as input
 \end{enumerate}
 
+\scriptsize
+
 \begin{Shaded}
 \begin{Highlighting}[]
 \NormalTok{plt <-}\StringTok{ }\KeywordTok{gl}\NormalTok{(}\DecValTok{3}\NormalTok{, }\DecValTok{10}\NormalTok{)}
 \NormalTok{h <-}\StringTok{ }\KeywordTok{how}\NormalTok{(}\DataTypeTok{within =} \KeywordTok{Within}\NormalTok{(}\DataTypeTok{type =} \StringTok{"series"}\NormalTok{), }\DataTypeTok{plots =} \KeywordTok{Plots}\NormalTok{(}\DataTypeTok{strata =} \NormalTok{plt))}
 \end{Highlighting}
 \end{Shaded}
+
+\normalsize
 
 \end{frame}
 
@@ -1748,6 +1909,8 @@ designing permutation schemes}
 
 Helper functions make it easy to change one or a few aspects of
 permutation scheme, rest left at defaults
+
+\scriptsize
 
 \begin{Shaded}
 \begin{Highlighting}[]
@@ -1773,6 +1936,8 @@ function (strata = NULL, type = c("none", "free", "series", "grid"),
 NULL
 \end{verbatim}
 
+\normalsize
+
 \end{frame}
 
 \begin{frame}[fragile]{Restricted permutations with permute \textbar{}
@@ -1791,6 +1956,8 @@ demanding 9999 permutations when there are only 10
   \& below which we turn on complete enumeration
 \end{itemize}
 
+\scriptsize
+
 \begin{Shaded}
 \begin{Highlighting}[]
 \KeywordTok{args}\NormalTok{(how)}
@@ -1804,12 +1971,16 @@ function (within = Within(), plots = Plots(), blocks = NULL,
 NULL
 \end{verbatim}
 
+\normalsize
+
 \end{frame}
 
 \begin{frame}[fragile]{Restricted permutations with permute \textbar{}
 time series example I}
 
 Time series within 3 plots, 10 observation each
+
+\scriptsize
 
 \begin{Shaded}
 \begin{Highlighting}[]
@@ -1828,6 +1999,8 @@ Time series within 3 plots, 10 observation each
 3   24   25   26   27   28   29   30   21   22    23
 \end{verbatim}
 
+\normalsize
+
 \end{frame}
 
 \begin{frame}[fragile]{Restricted permutations with permute \textbar{}
@@ -1835,6 +2008,8 @@ time series example II}
 
 Time series within 3 plots, 10 observation each, same permutation within
 each
+
+\scriptsize
 
 \begin{Shaded}
 \begin{Highlighting}[]
@@ -1853,12 +2028,16 @@ each
 3   27   28   29   30   21   22   23   24   25    26
 \end{verbatim}
 
+\normalsize
+
 \end{frame}
 
 \begin{frame}[fragile]{Restricted permutations with permute \textbar{}
 worked example with vegan}
 
 Here by dragons
+
+\scriptsize
 
 \begin{Shaded}
 \begin{Highlighting}[]
@@ -1878,10 +2057,14 @@ Here by dragons
 \end{Highlighting}
 \end{Shaded}
 
+\normalsize
+
 \end{frame}
 
 \begin{frame}[fragile]{Restricted permutations with permute \textbar{}
 worked example with vegan}
+
+\tiny
 
 \begin{Shaded}
 \begin{Highlighting}[]
@@ -1892,7 +2075,6 @@ worked example with vegan}
 \NormalTok{h <-}\StringTok{ }\KeywordTok{how}\NormalTok{(}\DataTypeTok{within =} \KeywordTok{Within}\NormalTok{(}\DataTypeTok{type =} \StringTok{"none"}\NormalTok{),}
          \DataTypeTok{plots =} \KeywordTok{Plots}\NormalTok{(}\DataTypeTok{strata =} \NormalTok{env$plotid, }\DataTypeTok{type =} \StringTok{"free"}\NormalTok{))}
 \KeywordTok{set.seed}\NormalTok{(}\DecValTok{42}\NormalTok{)}
-\NormalTok{perm <-}\StringTok{ }\KeywordTok{shuffleSet}\NormalTok{(}\KeywordTok{nrow}\NormalTok{(env), }\DataTypeTok{nset =} \DecValTok{499}\NormalTok{, }\DataTypeTok{control =} \NormalTok{h)}
 
 \KeywordTok{anova}\NormalTok{(c1, }\DataTypeTok{permutations =} \NormalTok{h, }\DataTypeTok{model =} \StringTok{"reduced"}\NormalTok{)}
 \end{Highlighting}
@@ -1928,18 +2110,22 @@ Number of permutations: 199
 Model: rda(formula = spp ~ year + year:mowing + year:fertilizer + year:removal + Condition(plotid), data = env)
          Df Variance       F Pr(>F)   
 RDA1      1    89.12 14.4173  0.005 **
-RDA2      1    34.28  5.5458  0.005 **
+RDA2      1    34.28  5.5458  0.010 **
 RDA3      1    26.52  4.2900  0.010 **
-RDA4      1     8.94  1.4458  0.600   
+RDA4      1     8.94  1.4458  0.625   
 Residual 90   556.30                  
 ---
 Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 \end{verbatim}
 
+\normalsize
+
 \end{frame}
 
 \begin{frame}[fragile]{Restricted permutations with permute \textbar{}
 worked example with vegan}
+
+\tiny
 
 \begin{Shaded}
 \begin{Highlighting}[]
@@ -1987,9 +2173,15 @@ Residual 90   556.30
 Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 \end{verbatim}
 
+\normalsize
+
 \end{frame}
 
 \begin{frame}{References}
+
+Blanchet, F Guillaume, Pierre Legendre, and Daniel Borcard. 2008.
+``Forward Selection of Explanatory Variables.'' \emph{Ecology} 89 (9).
+Eco Soc America: 2623--32.
 
 \end{frame}
 

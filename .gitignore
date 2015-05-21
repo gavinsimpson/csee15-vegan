@@ -11,3 +11,11 @@
 # produced vignettes
 vignettes/*.html
 vignettes/*.pdf
+
+# Cache * derived files
+vegan-slides_cache/
+vegan-slides_files/
+
+# backup file
+*~
+

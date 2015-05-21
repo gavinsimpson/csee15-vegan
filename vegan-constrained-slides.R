@@ -34,10 +34,10 @@ pcca <- cca(X = varespec,
             Z = varechem[, "pH", drop = FALSE])
 pcca <- cca(varespec ~ Ca + Condition(pH), data = varechem) ## easier!
 
-## ----triplot-1, fig.keep = "none"----------------------------------------
+## ----triplot-1, fig.height = 5, crop.plot = TRUE, out.width = "0.5\\linewidth"----
 plot(cca1)
 
-## ----triplot-2-----------------------------------------------------------
+## ----triplot-2, fig.height = 5, crop.plot = TRUE, out.width = "0.5\\linewidth"----
 plot(cca1)
 
 ## ----cca-model-build1----------------------------------------------------
@@ -96,7 +96,7 @@ m1 <- cca(spp ~ ., data = env)
 set.seed(32)
 anova(m1)
 
-## ----meadows-cca-full-triplot, echo = FALSE------------------------------
+## ----meadows-cca-full-triplot, fig.height = 5, crop.plot = TRUE, out.width = "0.5\\linewidth"----
 plot(m1)
 
 ## ----meadows-cca-stepwise------------------------------------------------
@@ -105,7 +105,7 @@ lwr <- cca(spp ~ 1, data = env)
 m2 <- ordistep(lwr, scope = formula(m1), trace = FALSE)
 m2
 
-## ----meadows-cca-reduced-triplot, echo = FALSE---------------------------
+## ----meadows-cca-reduced-triplot, fig.height = 5, crop.plot = TRUE, out.width = "0.5\\linewidth"----
 plot(m2)
 
 ## ----meadows-cca-anova---------------------------------------------------
@@ -117,7 +117,7 @@ m3 <- rda(spph ~ ., data = env)
 lwr <- rda(spph ~ 1, data = env)
 m4 <- ordistep(lwr, scope = formula(m3), trace = FALSE)
 
-## ----meadows-rda-reduced-triplot, echo = FALSE---------------------------
+## ----meadows-rda-reduced-triplot, fig.height = 5, crop.plot = TRUE, out.width = "0.5\\linewidth"----
 plot(m4)
 
 ## ----meadows-rda-adjrsquare----------------------------------------------
@@ -196,7 +196,6 @@ c1 <- rda(spp ~ year + year:mowing + year:fertilizer +
 h <- how(within = Within(type = "none"),
          plots = Plots(strata = env$plotid, type = "free"))
 set.seed(42)
-perm <- shuffleSet(nrow(env), nset = 499, control = h)
 
 anova(c1, permutations = h, model = "reduced")
 anova(c1, permutations = h, model = "reduced", by = "axis")
