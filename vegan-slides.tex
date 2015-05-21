@@ -1,0 +1,655 @@
+\documentclass[10pt,ignorenonframetext,compress, aspectratio=169]{beamer}
+\usetheme{m}
+\usefonttheme[onlymath]{serif}
+\setbeamertemplate{caption}[numbered]
+\setbeamertemplate{caption label separator}{:}
+\setbeamercolor{caption name}{fg=normal text.fg}
+\usepackage{amssymb,amsmath}
+% mathtools for underbracket
+\usepackage{mathtools}
+% \usepackage{ifxetex,ifluatex} % m theme needs xelatex
+\usepackage{fixltx2e} % provides \textsubscript
+% \usepackage{lmodern} kills bullets m theme
+% \ifxetex
+  \usepackage{fontspec,xltxtra,xunicode}
+  \defaultfontfeatures{Mapping=tex-text,Scale=MatchLowercase}
+  \newcommand{\euro}{€}
+% \else
+%   \ifluatex
+%     \usepackage{fontspec}
+%     \defaultfontfeatures{Mapping=tex-text,Scale=MatchLowercase}
+%     \newcommand{\euro}{€}
+%   \else
+%     \usepackage[T1]{fontenc}
+%     \usepackage[utf8]{inputenc}
+%     %   \fi
+% \fi
+% use upquote if available, for straight quotes in verbatim environments
+\IfFileExists{upquote.sty}{\usepackage{upquote}}{}
+% use microtype if available
+\IfFileExists{microtype.sty}{\usepackage{microtype}}{}
+\usepackage{color}
+\usepackage{fancyvrb}
+\newcommand{\VerbBar}{|}
+\newcommand{\VERB}{\Verb[commandchars=\\\{\}]}
+\DefineVerbatimEnvironment{Highlighting}{Verbatim}{commandchars=\\\{\}}
+% Add ',fontsize=\small' for more characters per line
+\usepackage{framed}
+\definecolor{shadecolor}{RGB}{248,248,248}
+\newenvironment{Shaded}{\begin{snugshade}}{\end{snugshade}}
+\newcommand{\KeywordTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{\textbf{{#1}}}}
+\newcommand{\DataTypeTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{{#1}}}
+\newcommand{\DecValTok}[1]{\textcolor[rgb]{0.00,0.00,0.81}{{#1}}}
+\newcommand{\BaseNTok}[1]{\textcolor[rgb]{0.00,0.00,0.81}{{#1}}}
+\newcommand{\FloatTok}[1]{\textcolor[rgb]{0.00,0.00,0.81}{{#1}}}
+\newcommand{\CharTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{{#1}}}
+\newcommand{\StringTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{{#1}}}
+\newcommand{\CommentTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textit{{#1}}}}
+\newcommand{\OtherTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{{#1}}}
+\newcommand{\AlertTok}[1]{\textcolor[rgb]{0.94,0.16,0.16}{{#1}}}
+\newcommand{\FunctionTok}[1]{\textcolor[rgb]{0.00,0.00,0.00}{{#1}}}
+\newcommand{\RegionMarkerTok}[1]{{#1}}
+\newcommand{\ErrorTok}[1]{\textbf{{#1}}}
+\newcommand{\NormalTok}[1]{{#1}}
+
+% Comment these out if you don't want a slide with just the
+% part/section/subsection/subsubsection title:
+% \AtBeginPart{
+%   \let\insertpartnumber\relax
+%   \let\partname\relax
+%   \frame{\partpage}
+% }
+% \AtBeginSection{
+%   \let\insertsectionnumber\relax
+%   \let\sectionname\relax
+%   \frame{\sectionpage}
+% }
+% \AtBeginSubsection{
+%   \let\insertsubsectionnumber\relax
+%   \let\subsectionname\relax
+%   \frame{\subsectionpage}
+% }
+
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{6pt plus 2pt minus 1pt}
+\setlength{\emergencystretch}{3em}  % prevent overfull lines
+\setcounter{secnumdepth}{0}
+
+% Textcomp for various common symbols
+\usepackage{textcomp}
+
+\usepackage{booktabs}
+
+% Creative Commons Icons
+\usepackage[scale=2]{ccicons}
+
+\newenvironment{centrefig}{\begin{figure}\centering}{\end{figure}}
+\newcommand{\columnsbegin}{\begin{columns}}
+\newcommand{\columnsend}{\end{columns}}
+\newcommand{\centreFigBegin}{\begin{columns}\centering}
+\newcommand{\centreFigEnd}{\end{figure}}
+
+
+\title{A Brief Introduction to Vegan}
+\author{Gavin L. Simpson}
+\date{CSEE 2015 • May 20th 2015}
+
+\begin{document}
+\frame{\titlepage}
+
+\section{Basic Ordination}\label{basic-ordination}
+
+\begin{frame}{Unconstrained ordination}
+
+What is \alert{unconstrained}
+
+First we look for major variation, then relate it to environmental
+variation
+
+vs.~constrained ordination, where we only want to see what can be
+explained by environmental variables of interest
+
+How well do we explain the main patterns in the species data vs how
+large are the patterns we can expain with the measured data
+
+\end{frame}
+
+\begin{frame}{Examples of unconstrained ordination}
+
+\begin{itemize}
+\itemsep1pt\parskip0pt\parsep0pt
+\item
+  Principal Components Analysis --- PCA
+\item
+  Correspondance Analysis --- CA
+\item
+  Nonmetric Multidimensional Scaling --- NMDS
+\end{itemize}
+
+\end{frame}
+
+\begin{frame}[fragile]{Before we get started}
+
+Housekeeping
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{setwd}\NormalTok{(}\StringTok{"your/working/dir"}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{library}\NormalTok{(}\StringTok{"vegan"}\NormalTok{)}
+\KeywordTok{data}\NormalTok{(dune)}
+\KeywordTok{data}\NormalTok{(dune.env)}
+\end{Highlighting}
+\end{Shaded}
+
+Data from: Jongman, R.H.G, ter Braak, C.J.F \& van Tongeren, O.F.R.
+(1987). Data Analysis in Community and Landscape Ecology. Pudoc,
+Wageningen.
+
+\end{frame}
+
+\begin{frame}[fragile]{Before we get started \textbar{} species}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{dim}\NormalTok{(dune)                               }\CommentTok{# number of samples, species}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+[1] 20 30
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{head}\NormalTok{(dune[,}\DecValTok{1}\NormalTok{:}\DecValTok{6}\NormalTok{])}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+  Achimill Agrostol Airaprae Alopgeni Anthodor Bellpere
+1        1        0        0        0        0        0
+2        3        0        0        2        0        3
+3        0        4        0        7        0        2
+4        0        8        0        2        0        2
+5        2        0        0        0        4        2
+6        2        0        0        0        3        0
+\end{verbatim}
+
+\end{frame}
+
+\begin{frame}[fragile]{Before we get started \textbar{} environment}
+
+\scriptsize
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{head}\NormalTok{(dune.env, }\DataTypeTok{n=}\DecValTok{3}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+   A1 Moisture Management      Use Manure
+1 2.8        1         SF Haypastu      4
+2 3.5        1         BF Haypastu      2
+3 4.3        2         SF Haypastu      4
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{summary}\NormalTok{(dune.env)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+       A1         Moisture Management       Use    Manure
+ Min.   : 2.800   1:7      BF:3       Hayfield:7   0:6   
+ 1st Qu.: 3.500   2:4      HF:5       Haypastu:8   1:3   
+ Median : 4.200   4:2      NM:6       Pasture :5   2:4   
+ Mean   : 4.850   5:7      SF:6                    3:4   
+ 3rd Qu.: 5.725                                    4:3   
+ Max.   :11.500                                          
+\end{verbatim}
+
+\normalsize
+
+\end{frame}
+
+\begin{frame}[fragile]{Basic ordination}
+
+PCA finds linear combinations of the variables that explain the largest
+amounts of variance in the data
+
+\scriptsize
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{(pca <-}\StringTok{ }\KeywordTok{rda}\NormalTok{(dune))}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+Call: rda(X = dune)
+
+              Inertia Rank
+Total           84.12     
+Unconstrained   84.12   19
+Inertia is variance 
+
+Eigenvalues for unconstrained axes:
+   PC1    PC2    PC3    PC4    PC5    PC6    PC7    PC8 
+24.795 18.147  7.629  7.153  5.695  4.333  3.199  2.782 
+(Showed only 8 of all 19 unconstrained eigenvalues)
+\end{verbatim}
+
+\end{frame}
+
+\begin{frame}{Basic ordination}
+
+Vegan has a wrapper function for doing NMDS ordinations using best
+practices:
+
+\begin{itemize}
+\itemsep1pt\parskip0pt\parsep0pt
+\item
+  \texttt{metaMDS()}
+\end{itemize}
+
+This will do handy things
+
+\begin{itemize}
+\itemsep1pt\parskip0pt\parsep0pt
+\item
+  standardize your data if necessary
+\item
+  perform rotation to PCs
+\item
+  scale coordinates in half change units
+\end{itemize}
+
+\end{frame}
+
+\begin{frame}[fragile]{Basic ordination and plotting}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{dune.bray.ord <-}\StringTok{ }\KeywordTok{metaMDS}\NormalTok{(dune, }\DataTypeTok{distance =} \StringTok{"bray"}\NormalTok{, }\DataTypeTok{k =} \DecValTok{2}\NormalTok{, }\DataTypeTok{trymax =} \DecValTok{50}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\end{frame}
+
+\begin{frame}[fragile]{Basic ordination and plotting (using all
+defaults)}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{plot}\NormalTok{(dune.bray.ord)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{center}\includegraphics[width=0.5\linewidth]{vegan-slides_files/figure-beamer/NMDS2-1} \end{center}
+
+\end{frame}
+
+\begin{frame}[fragile]{Basic ordination and plotting (just plots)}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{plot}\NormalTok{(dune.bray.ord, }\DataTypeTok{display =} \StringTok{"sites"}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{center}\includegraphics[width=0.5\linewidth]{vegan-slides_files/figure-beamer/NMDS3-1} \end{center}
+
+\end{frame}
+
+\begin{frame}[fragile]{Basic ordination and plotting (just species)}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{plot}\NormalTok{(dune.bray.ord, }\DataTypeTok{display =} \StringTok{"species"}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{center}\includegraphics[width=0.5\linewidth]{vegan-slides_files/figure-beamer/NMDS4-1} \end{center}
+
+\end{frame}
+
+\begin{frame}[fragile]{Site names instead of points}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{plot}\NormalTok{(dune.bray.ord, }\DataTypeTok{display =} \StringTok{"sites"}\NormalTok{, }\DataTypeTok{type =} \StringTok{"text"}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{center}\includegraphics[width=0.5\linewidth]{vegan-slides_files/figure-beamer/NMDS5-1} \end{center}
+
+\end{frame}
+
+\begin{frame}[fragile]{Site names instead of points}
+
+\scriptsize
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{plot}\NormalTok{(dune.bray.ord, }\DataTypeTok{display =} \StringTok{"sites"}\NormalTok{)}
+\KeywordTok{set.seed}\NormalTok{(}\DecValTok{314}\NormalTok{) ## make reproducible}
+\KeywordTok{ordipointlabel}\NormalTok{(dune.bray.ord, }\DataTypeTok{display =} \StringTok{"sites"}\NormalTok{, }\DataTypeTok{scaling =} \DecValTok{3}\NormalTok{, }\DataTypeTok{add =} \OtherTok{TRUE}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{center}\includegraphics[width=0.5\linewidth]{vegan-slides_files/figure-beamer/NMDS5-2-1} \end{center}
+
+\normalsize
+
+\end{frame}
+
+\begin{frame}[fragile]{Site names instead of points}
+
+\scriptsize
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{plot}\NormalTok{(dune.bray.ord, }\DataTypeTok{display =} \StringTok{"species"}\NormalTok{)}
+\KeywordTok{set.seed}\NormalTok{(}\DecValTok{314}\NormalTok{) ## make reproducible}
+\KeywordTok{ordipointlabel}\NormalTok{(dune.bray.ord, }\DataTypeTok{display =} \StringTok{"species"}\NormalTok{, }\DataTypeTok{scaling =} \DecValTok{3}\NormalTok{, }\DataTypeTok{add =} \OtherTok{TRUE}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{center}\includegraphics[width=0.5\linewidth]{vegan-slides_files/figure-beamer/NMDS5-5-1} \end{center}
+
+\normalsize
+
+\end{frame}
+
+\begin{frame}[fragile]{Site names instead of points}
+
+\scriptsize
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{plot}\NormalTok{(dune.bray.ord)}
+\KeywordTok{set.seed}\NormalTok{(}\DecValTok{314}\NormalTok{) ## make reproducible}
+\KeywordTok{ordipointlabel}\NormalTok{(dune.bray.ord, }\DataTypeTok{scaling =} \DecValTok{3}\NormalTok{, }\DataTypeTok{add =} \OtherTok{TRUE}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{center}\includegraphics[width=0.5\linewidth]{vegan-slides_files/figure-beamer/NMDS5-6-1} \end{center}
+
+\normalsize
+
+\end{frame}
+
+\begin{frame}[fragile]{Larger points}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{plot}\NormalTok{(dune.bray.ord, }\DataTypeTok{display =} \StringTok{"sites"}\NormalTok{, }\DataTypeTok{cex=}\DecValTok{2}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{center}\includegraphics[width=0.5\linewidth]{vegan-slides_files/figure-beamer/NMDS6-1} \end{center}
+
+\end{frame}
+
+\begin{frame}{Modifying the display of the points with environmental
+data}
+
+\begin{itemize}
+\itemsep1pt\parskip0pt\parsep0pt
+\item
+  Color
+\item
+  Shape
+\item
+  Size
+\end{itemize}
+
+\end{frame}
+
+\begin{frame}[fragile]{Modifying the color of points}
+
+\tiny
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{colors.vec <-}\StringTok{ }\KeywordTok{c}\NormalTok{(}\StringTok{"red"}\NormalTok{, }\StringTok{"blue"}\NormalTok{, }\StringTok{"orange"}\NormalTok{, }\StringTok{"grey"}\NormalTok{)}
+\KeywordTok{plot}\NormalTok{(dune.bray.ord, }\DataTypeTok{display =} \StringTok{"sites"}\NormalTok{, }\DataTypeTok{type =} \StringTok{"n"}\NormalTok{)}
+\KeywordTok{points}\NormalTok{(dune.bray.ord, }\DataTypeTok{display =} \StringTok{"sites"}\NormalTok{, }\DataTypeTok{cex=}\DecValTok{2}\NormalTok{, }\DataTypeTok{pch =} \DecValTok{21}\NormalTok{, }
+       \DataTypeTok{col =} \NormalTok{colors.vec[dune.env$Management], }
+       \DataTypeTok{bg =} \NormalTok{colors.vec[dune.env$Management])}
+\KeywordTok{legend}\NormalTok{(}\StringTok{"topright"}\NormalTok{, }\DataTypeTok{legend =} \KeywordTok{levels}\NormalTok{(dune.env$Management), }\DataTypeTok{bty =} \StringTok{"n"}\NormalTok{,}
+                      \DataTypeTok{col =} \NormalTok{colors.vec, }\DataTypeTok{pch =} \DecValTok{21}\NormalTok{, }\DataTypeTok{pt.bg =} \NormalTok{colors.vec)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{center}\includegraphics[width=0.5\linewidth]{vegan-slides_files/figure-beamer/NMDS7-1} \end{center}
+
+\normalsize
+
+\end{frame}
+
+\begin{frame}[fragile]{Adding other layers}
+
+\scriptsize
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{plot}\NormalTok{(dune.bray.ord, }\DataTypeTok{display =} \StringTok{"sites"}\NormalTok{, }\DataTypeTok{cex=}\DecValTok{2}\NormalTok{) }\CommentTok{# just site points}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{center}\includegraphics[width=0.5\linewidth]{vegan-slides_files/figure-beamer/NMDS11-1} \end{center}
+
+\normalsize
+
+\end{frame}
+
+\begin{frame}[fragile]{Adding other layers}
+
+\scriptsize
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{plot}\NormalTok{(dune.bray.ord, }\DataTypeTok{display =} \StringTok{"sites"}\NormalTok{, }\DataTypeTok{cex=}\DecValTok{2}\NormalTok{)}
+\KeywordTok{ordihull}\NormalTok{(dune.bray.ord,}\DataTypeTok{groups =} \NormalTok{dune.env$Management, }\DataTypeTok{label =} \OtherTok{TRUE}\NormalTok{) }\CommentTok{# convex hulls}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{center}\includegraphics[width=0.5\linewidth]{vegan-slides_files/figure-beamer/NMDS12-1} \end{center}
+
+\normalsize
+
+\end{frame}
+
+\begin{frame}[fragile]{Adding other layers}
+
+\scriptsize
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{plot}\NormalTok{(dune.bray.ord, }\DataTypeTok{display =} \StringTok{"sites"}\NormalTok{, }\DataTypeTok{cex=}\DecValTok{2}\NormalTok{)}
+\KeywordTok{ordihull}\NormalTok{(dune.bray.ord,}\DataTypeTok{groups =} \NormalTok{dune.env$Management, }\DataTypeTok{label =} \OtherTok{TRUE}\NormalTok{, }\DataTypeTok{col =} \StringTok{"blue"}\NormalTok{)}
+\KeywordTok{ordispider}\NormalTok{(dune.bray.ord,}\DataTypeTok{groups =} \NormalTok{dune.env$Management, }\DataTypeTok{label =} \OtherTok{TRUE}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{center}\includegraphics[width=0.5\linewidth]{vegan-slides_files/figure-beamer/NMDS14-1} \end{center}
+
+\normalsize
+
+\end{frame}
+
+\begin{frame}[fragile]{Adding other layers - axes scaling}
+
+\scriptsize
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{plot}\NormalTok{(dune.bray.ord, }\DataTypeTok{type =} \StringTok{"n"}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{center}\includegraphics[width=0.5\linewidth]{vegan-slides_files/figure-beamer/NMDS17-1} \end{center}
+
+\normalsize
+
+\end{frame}
+
+\begin{frame}[fragile]{Adding other layers - axes scaling}
+
+\scriptsize
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{plot}\NormalTok{(dune.bray.ord, }\DataTypeTok{type =} \StringTok{"n"}\NormalTok{)}
+\KeywordTok{points}\NormalTok{(dune.bray.ord, }\DataTypeTok{display =} \StringTok{"sites"}\NormalTok{, }\DataTypeTok{cex =} \DecValTok{2}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{center}\includegraphics[width=0.5\linewidth]{vegan-slides_files/figure-beamer/NMDS18-1} \end{center}
+
+\normalsize
+
+\end{frame}
+
+\begin{frame}[fragile]{Adding other layers - axes scaling}
+
+\scriptsize
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{plot}\NormalTok{(dune.bray.ord, }\DataTypeTok{display =} \StringTok{"sites"}\NormalTok{, }\DataTypeTok{type =} \StringTok{"n"}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{center}\includegraphics[width=0.5\linewidth]{vegan-slides_files/figure-beamer/NMDS19-1} \end{center}
+
+\normalsize
+
+\end{frame}
+
+\begin{frame}[fragile]{Adding other layers - axes scaling}
+
+\scriptsize
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{plot}\NormalTok{(dune.bray.ord, }\DataTypeTok{display =} \StringTok{"sites"}\NormalTok{, }\DataTypeTok{type =} \StringTok{"n"}\NormalTok{)}
+\KeywordTok{points}\NormalTok{(dune.bray.ord, }\DataTypeTok{display =} \StringTok{"sites"}\NormalTok{, }\DataTypeTok{cex =} \DecValTok{2}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{center}\includegraphics[width=0.5\linewidth]{vegan-slides_files/figure-beamer/NMDS20-1} \end{center}
+
+\normalsize
+
+\end{frame}
+
+\begin{frame}[fragile]{Adding other layers}
+
+\scriptsize
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{plot}\NormalTok{(dune.bray.ord, }\DataTypeTok{display =} \StringTok{"sites"}\NormalTok{, }\DataTypeTok{type =} \StringTok{"n"}\NormalTok{)}
+\KeywordTok{points}\NormalTok{(dune.bray.ord,}\DataTypeTok{display =} \StringTok{"sites"}\NormalTok{, }\DataTypeTok{cex =} \DecValTok{2}\NormalTok{)}
+\KeywordTok{ordispider}\NormalTok{(dune.bray.ord,}\DataTypeTok{groups =} \NormalTok{dune.env$Management, }\DataTypeTok{label =} \OtherTok{TRUE}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{center}\includegraphics[width=0.5\linewidth]{vegan-slides_files/figure-beamer/NMDS21-1} \end{center}
+
+\normalsize
+
+\end{frame}
+
+\begin{frame}[fragile]{Adding other layers}
+
+\scriptsize
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{plot}\NormalTok{(dune.bray.ord, }\DataTypeTok{display =} \StringTok{"sites"}\NormalTok{, }\DataTypeTok{type =} \StringTok{"n"}\NormalTok{)}
+\KeywordTok{points}\NormalTok{(dune.bray.ord, }\DataTypeTok{display =} \StringTok{"sites"}\NormalTok{, }\DataTypeTok{cex =} \DecValTok{2}\NormalTok{)}
+\KeywordTok{ordiellipse}\NormalTok{(dune.bray.ord,}\DataTypeTok{groups =} \NormalTok{dune.env$Management, }\DataTypeTok{label =} \OtherTok{TRUE}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{center}\includegraphics[width=0.5\linewidth]{vegan-slides_files/figure-beamer/NMDS22-1} \end{center}
+
+\normalsize
+
+\end{frame}
+
+\begin{frame}[fragile]{Adding other layers}
+
+\scriptsize
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{plot}\NormalTok{(dune.bray.ord, }\DataTypeTok{display =} \StringTok{"sites"}\NormalTok{, }\DataTypeTok{type =} \StringTok{"n"}\NormalTok{)}
+\KeywordTok{points}\NormalTok{(dune.bray.ord,}\DataTypeTok{display =} \StringTok{"sites"}\NormalTok{, }\DataTypeTok{cex =} \DecValTok{2}\NormalTok{)}
+\KeywordTok{ordisurf}\NormalTok{(dune.bray.ord,dune.env$A1, }\DataTypeTok{add =} \OtherTok{TRUE}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{center}\includegraphics[width=0.5\linewidth]{vegan-slides_files/figure-beamer/NMDS23-1} \end{center}
+
+\normalsize
+
+\end{frame}
+
+\begin{frame}[fragile]{Vectors in ordination space}
+
+\scriptsize
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{dune.bray.ord.A1.fit <-}\StringTok{ }\KeywordTok{envfit}\NormalTok{(dune.bray.ord,dune.env$A1, }\DataTypeTok{permutations =} \DecValTok{1000}\NormalTok{)}
+\NormalTok{dune.bray.ord.A1.fit}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+
+***VECTORS
+
+       NMDS1   NMDS2     r2  Pr(>r)  
+[1,] 0.99008 0.14052 0.3798 0.01698 *
+---
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+Permutation: free
+Number of permutations: 1000
+\end{verbatim}
+
+\normalsize
+
+\end{frame}
+
+\begin{frame}[fragile]{Vectors in ordination space}
+
+\scriptsize
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{plot}\NormalTok{(dune.bray.ord, }\DataTypeTok{display =} \StringTok{"sites"}\NormalTok{, }\DataTypeTok{type =} \StringTok{"n"}\NormalTok{)}
+\KeywordTok{points}\NormalTok{(dune.bray.ord,}\DataTypeTok{display =} \StringTok{"sites"}\NormalTok{, }\DataTypeTok{cex =} \DecValTok{2}\NormalTok{)}
+\KeywordTok{plot}\NormalTok{(dune.bray.ord.A1.fit, }\DataTypeTok{add =} \OtherTok{TRUE}\NormalTok{)}
+\KeywordTok{ordisurf}\NormalTok{(dune.bray.ord,dune.env$A1, }\DataTypeTok{add =} \OtherTok{TRUE}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{center}\includegraphics[width=0.5\linewidth]{vegan-slides_files/figure-beamer/NMDS25-1} \end{center}
+
+\normalsize
+
+\end{frame}
+
+\end{document}

@@ -1,0 +1,300 @@
+---
+title: "A Brief Introduction to Vegan"
+author: Gavin L. Simpson
+date: CSEE 2015 • May 20th 2015
+fontsize: 10pt
+classoption: "compress, aspectratio=169"
+output:
+  beamer_presentation:
+    theme: m
+    keep_tex: true
+    highlight: tango
+    slide_level: 2
+    template: ./slides-template.tex
+    fig_width: 6
+    fig_height: 3.5
+    fig_crop: false
+    pandoc_args: [
+      "--latex-engine=xelatex"
+    ]
+---
+
+```{r setup-options, echo = FALSE, results = "hide", message = FALSE}
+knitr::opts_chunk$set(comment=NA, fig.align = "center",
+                      out.width = "0.7\\linewidth",
+                      echo = TRUE, message = TRUE, warning = TRUE,
+                      cache = TRUE)
+knitr::knit_hooks$set(crop.plot = knitr::hook_pdfcrop)
+```
+
+```{r packages, echo = FALSE, results = "hide", message = FALSE}
+library("vegan")
+data(varespec)
+data(varechem)
+```
+
+# Basic Ordination
+
+## Unconstrained ordination
+
+What is \alert{unconstrained}
+
+First we look for major variation, then relate it to environmental variation
+
+vs. constrained ordination, where we only want to see what can be explained by environmental variables of interest
+
+How well do we explain the main patterns in the species data vs how large are the patterns we can expain with the measured data
+
+## Examples of unconstrained ordination
+
+* Principal Components Analysis --- PCA
+* Correspondance Analysis --- CA
+* Nonmetric Multidimensional Scaling --- NMDS
+
+## Before we get started
+
+Housekeeping
+```{r housekeeping, eval=FALSE}
+setwd("your/working/dir")
+```
+
+```{r loading-1, results='hide', message = FALSE}
+library("vegan")
+data(dune)
+data(dune.env)
+```
+Data from: Jongman, R.H.G, ter Braak, C.J.F & van Tongeren, O.F.R. (1987). Data Analysis in Community and Landscape Ecology. Pudoc, Wageningen.
+
+## Before we get started | species
+
+```{r loading-2}
+dim(dune)                               # number of samples, species
+head(dune[,1:6])
+```
+
+## Before we get started | environment
+
+\scriptsize
+```{r loading-3}
+head(dune.env, n=3)
+summary(dune.env)
+```
+\normalsize
+
+## Basic ordination
+
+PCA finds linear combinations of the variables that explain the largest amounts of variance in the data
+
+\scriptsize
+```{r pca1}
+(pca <- rda(dune))
+```
+
+## Basic ordination
+
+Vegan has a wrapper function for doing NMDS ordinations using best practices:
+
+* `metaMDS()`
+
+This will do handy things
+
+- standardize your data if necessary
+- perform rotation to PCs
+- scale coordinates in half change units
+
+## Basic ordination and plotting
+
+```{r NMDS1, results='hide'}
+dune.bray.ord <- metaMDS(dune, distance = "bray", k = 2, trymax = 50)
+```
+
+## Basic ordination and plotting (using all defaults)
+
+```{r NMDS2, fig.height = 5, crop.plot = TRUE, out.width = "0.5\\linewidth"}
+plot(dune.bray.ord)
+```
+
+## Basic ordination and plotting (just plots)
+
+```{r NMDS3, fig.height = 5, crop.plot = TRUE, out.width = "0.5\\linewidth"}
+plot(dune.bray.ord, display = "sites")
+```
+
+## Basic ordination and plotting (just species)
+
+```{r NMDS4, fig.height = 5, crop.plot = TRUE, out.width = "0.5\\linewidth"}
+plot(dune.bray.ord, display = "species")
+```
+
+## Site names instead of points
+
+```{r NMDS5, fig.height = 5, crop.plot = TRUE, out.width = "0.5\\linewidth"}
+plot(dune.bray.ord, display = "sites", type = "text")
+```
+
+## Site names instead of points
+
+\scriptsize
+```{r NMDS5-2, fig.height = 5, crop.plot = TRUE, out.width = "0.5\\linewidth"}
+plot(dune.bray.ord, display = "sites")
+set.seed(314) ## make reproducible
+ordipointlabel(dune.bray.ord, display = "sites", scaling = 3, add = TRUE)
+```
+\normalsize
+
+## Site names instead of points
+
+\scriptsize
+```{r NMDS5-5, fig.height = 5, crop.plot = TRUE, out.width = "0.5\\linewidth"}
+plot(dune.bray.ord, display = "species")
+set.seed(314) ## make reproducible
+ordipointlabel(dune.bray.ord, display = "species", scaling = 3, add = TRUE)
+```
+\normalsize
+
+## Site names instead of points
+
+\scriptsize
+```{r NMDS5-6, fig.height = 5, crop.plot = TRUE, out.width = "0.5\\linewidth"}
+plot(dune.bray.ord)
+set.seed(314) ## make reproducible
+ordipointlabel(dune.bray.ord, scaling = 3, add = TRUE)
+```
+\normalsize
+
+## Larger points
+
+```{r NMDS6, fig.height = 5, crop.plot = TRUE, out.width = "0.5\\linewidth"}
+plot(dune.bray.ord, display = "sites", cex=2)
+```
+
+## Modifying the display of the points with environmental data 
+
+* Color
+* Shape
+* Size
+
+## Modifying the color of points
+
+\tiny
+```{r NMDS7, fig.height = 5, crop.plot = TRUE, out.width = "0.5\\linewidth"}
+colors.vec <- c("red", "blue", "orange", "grey")
+plot(dune.bray.ord, display = "sites", type = "n")
+points(dune.bray.ord, display = "sites", cex=2, pch = 21, 
+       col = colors.vec[dune.env$Management], 
+       bg = colors.vec[dune.env$Management])
+legend("topright", legend = levels(dune.env$Management), bty = "n",
+                      col = colors.vec, pch = 21, pt.bg = colors.vec)
+```
+\normalsize
+
+## Adding other layers
+
+\scriptsize
+```{r NMDS11, fig.height = 5, crop.plot = TRUE, out.width = "0.5\\linewidth"}
+plot(dune.bray.ord, display = "sites", cex=2) # just site points
+```
+\normalsize
+
+## Adding other layers
+
+\scriptsize
+```{r NMDS12, fig.height = 5, crop.plot = TRUE, out.width = "0.5\\linewidth"}
+plot(dune.bray.ord, display = "sites", cex=2)
+ordihull(dune.bray.ord,groups = dune.env$Management, label = TRUE) # convex hulls
+```
+\normalsize
+
+## Adding other layers
+
+\scriptsize
+```{r NMDS14, fig.height = 5, crop.plot = TRUE, out.width = "0.5\\linewidth"}
+plot(dune.bray.ord, display = "sites", cex=2)
+ordihull(dune.bray.ord,groups = dune.env$Management, label = TRUE, col = "blue")
+ordispider(dune.bray.ord,groups = dune.env$Management, label = TRUE)
+```
+\normalsize
+
+## Adding other layers - axes scaling
+
+\scriptsize
+```{r NMDS17, fig.height = 5, crop.plot = TRUE, out.width = "0.5\\linewidth"}
+plot(dune.bray.ord, type = "n")
+```
+\normalsize
+
+## Adding other layers - axes scaling
+
+\scriptsize
+```{r NMDS18, fig.height = 5, crop.plot = TRUE, out.width = "0.5\\linewidth"}
+plot(dune.bray.ord, type = "n")
+points(dune.bray.ord, display = "sites", cex = 2)
+```
+\normalsize
+
+## Adding other layers - axes scaling
+
+\scriptsize
+```{r NMDS19, fig.height = 5, crop.plot = TRUE, out.width = "0.5\\linewidth"}
+plot(dune.bray.ord, display = "sites", type = "n")
+```
+\normalsize
+
+## Adding other layers - axes scaling
+
+\scriptsize
+```{r NMDS20, fig.height = 5, crop.plot = TRUE, out.width = "0.5\\linewidth"}
+plot(dune.bray.ord, display = "sites", type = "n")
+points(dune.bray.ord, display = "sites", cex = 2)
+```
+\normalsize
+
+## Adding other layers
+
+\scriptsize
+```{r NMDS21, fig.height = 5, crop.plot = TRUE, out.width = "0.5\\linewidth"}
+plot(dune.bray.ord, display = "sites", type = "n")
+points(dune.bray.ord,display = "sites", cex = 2)
+ordispider(dune.bray.ord,groups = dune.env$Management, label = TRUE)
+```
+\normalsize
+
+## Adding other layers
+
+\scriptsize
+```{r NMDS22, fig.height = 5, crop.plot = TRUE, out.width = "0.5\\linewidth"}
+plot(dune.bray.ord, display = "sites", type = "n")
+points(dune.bray.ord, display = "sites", cex = 2)
+ordiellipse(dune.bray.ord,groups = dune.env$Management, label = TRUE)
+```
+\normalsize
+
+## Adding other layers
+\scriptsize
+```{r NMDS23, fig.height = 5, crop.plot = TRUE, out.width = "0.5\\linewidth", message=FALSE, results='hide'}
+plot(dune.bray.ord, display = "sites", type = "n")
+points(dune.bray.ord,display = "sites", cex = 2)
+ordisurf(dune.bray.ord,dune.env$A1, add = TRUE)
+```
+\normalsize
+
+## Vectors in ordination space
+
+\scriptsize
+```{r NMDS24}
+dune.bray.ord.A1.fit <- envfit(dune.bray.ord,dune.env$A1, permutations = 1000)
+dune.bray.ord.A1.fit
+```
+\normalsize
+
+## Vectors in ordination space
+
+\scriptsize
+```{r NMDS25, fig.height = 5, crop.plot = TRUE, out.width = "0.5\\linewidth", message=FALSE, results='hide'}
+plot(dune.bray.ord, display = "sites", type = "n")
+points(dune.bray.ord,display = "sites", cex = 2)
+plot(dune.bray.ord.A1.fit, add = TRUE)
+ordisurf(dune.bray.ord,dune.env$A1, add = TRUE)
+```
+\normalsize
+
